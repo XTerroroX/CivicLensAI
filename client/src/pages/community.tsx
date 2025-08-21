@@ -264,7 +264,7 @@ export default function Community() {
                   <SelectValue placeholder="Filter by type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Types</SelectItem>
+                  <SelectItem value="all">All Types</SelectItem>
                   <SelectItem value="discussion">Discussions</SelectItem>
                   <SelectItem value="announcement">Announcements</SelectItem>
                 </SelectContent>
@@ -275,7 +275,7 @@ export default function Community() {
                   <SelectValue placeholder="Filter by source" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Posts</SelectItem>
+                  <SelectItem value="all">All Posts</SelectItem>
                   <SelectItem value="true">Official Only</SelectItem>
                   <SelectItem value="false">Community Only</SelectItem>
                 </SelectContent>
@@ -283,7 +283,7 @@ export default function Community() {
 
               <Button 
                 variant="outline" 
-                onClick={() => setFilters({ postType: "", isOfficial: "", page: 1 })}
+                onClick={() => setFilters({ postType: "all", isOfficial: "all", page: 1 })}
                 data-testid="button-clear-filters"
               >
                 <i className="fas fa-times mr-2"></i>Clear Filters

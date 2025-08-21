@@ -19,8 +19,8 @@ export default function Reports() {
   const queryClient = useQueryClient();
   
   const [filters, setFilters] = useState({
-    status: "",
-    issueType: "",
+    status: "all",
+    issueType: "all", 
     page: 1,
   });
   const [selectedIssue, setSelectedIssue] = useState<any>(null);
@@ -138,7 +138,7 @@ export default function Reports() {
                   <SelectValue placeholder="Filter by status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Statuses</SelectItem>
+                  <SelectItem value="all">All Statuses</SelectItem>
                   <SelectItem value="pending">Pending</SelectItem>
                   <SelectItem value="assigned">Assigned</SelectItem>
                   <SelectItem value="in_progress">In Progress</SelectItem>
@@ -152,7 +152,7 @@ export default function Reports() {
                   <SelectValue placeholder="Filter by type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Types</SelectItem>
+                  <SelectItem value="all">All Types</SelectItem>
                   <SelectItem value="pothole">Pothole</SelectItem>
                   <SelectItem value="graffiti">Graffiti</SelectItem>
                   <SelectItem value="streetlight">Street Light</SelectItem>
@@ -166,7 +166,7 @@ export default function Reports() {
 
               <Button 
                 variant="outline" 
-                onClick={() => setFilters({ status: "", issueType: "", page: 1 })}
+                onClick={() => setFilters({ status: "all", issueType: "all", page: 1 })}
                 data-testid="button-clear-filters"
               >
                 <i className="fas fa-times mr-2"></i>Clear Filters

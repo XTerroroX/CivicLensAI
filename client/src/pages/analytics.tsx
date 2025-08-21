@@ -83,7 +83,7 @@ export default function Analytics() {
                   <SelectValue placeholder="Filter by department" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Departments</SelectItem>
+                  <SelectItem value="all">All Departments</SelectItem>
                   <SelectItem value="public_works">Public Works</SelectItem>
                   <SelectItem value="sanitation">Sanitation</SelectItem>
                   <SelectItem value="transportation">Transportation</SelectItem>
@@ -110,7 +110,7 @@ export default function Analytics() {
 
               <Button 
                 variant="outline" 
-                onClick={() => setFilters({ department: "", dateFrom: "", dateTo: "" })}
+                onClick={() => setFilters({ department: "all", dateFrom: "", dateTo: "" })}
                 data-testid="button-clear-analytics-filters"
               >
                 <i className="fas fa-times mr-2"></i>Clear Filters
