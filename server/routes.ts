@@ -273,6 +273,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log("Post creation - userId from claims:", userId);
       
       let user = await storage.getUser(userId);
+      
+      // Use the database user ID instead of claims sub
+      const dbUserId = user?.id;
       console.log("Post creation - user from storage:", user);
       
       if (!user) {
@@ -310,7 +313,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const post = await storage.createPost({
         ...validatedData,
-        authorId: userId,
+        authorId: dbUserId,
         isOfficial: validatedData.isOfficial && (user.role === "official" || user.role === "admin"),
       });
 

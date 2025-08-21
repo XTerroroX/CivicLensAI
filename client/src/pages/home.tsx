@@ -1,12 +1,12 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import Navigation from "@/components/ui/navigation";
 import IssueUpload from "@/components/ui/issue-upload";
 import DashboardStats from "@/components/ui/dashboard-stats";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
+import { Plus, TrendingUp, MapPin, Clock } from "lucide-react";
 
 export default function Home() {
   const { user } = useAuth();
@@ -28,64 +28,64 @@ export default function Home() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "pending": return "bg-yellow-100 text-yellow-800";
-      case "assigned": return "bg-blue-100 text-blue-800";
-      case "in_progress": return "bg-orange-100 text-orange-800";
-      case "resolved": return "bg-green-100 text-green-800";
-      case "closed": return "bg-gray-100 text-gray-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "pending": return "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400";
+      case "assigned": return "bg-blue-500/10 text-blue-700 dark:text-blue-400";
+      case "in_progress": return "bg-orange-500/10 text-orange-700 dark:text-orange-400";
+      case "resolved": return "bg-green-500/10 text-green-700 dark:text-green-400";
+      case "closed": return "bg-gray-500/10 text-gray-700 dark:text-gray-400";
+      default: return "bg-gray-500/10 text-gray-700 dark:text-gray-400";
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "low": return "bg-green-100 text-green-800";
-      case "medium": return "bg-yellow-100 text-yellow-800";
-      case "high": return "bg-orange-100 text-orange-800";
-      case "urgent": return "bg-red-100 text-red-800";
-      default: return "bg-gray-100 text-gray-800";
+      case "low": return "bg-green-500/10 text-green-700 dark:text-green-400";
+      case "medium": return "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400";
+      case "high": return "bg-orange-500/10 text-orange-700 dark:text-orange-400";
+      case "urgent": return "bg-red-500/10 text-red-700 dark:text-red-400";
+      default: return "bg-gray-500/10 text-gray-700 dark:text-gray-400";
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50/30 to-blue-50">
-      <Navigation />
-      
-      {/* Header */}
-      <div className="bg-white border-b border-gray-100 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900" data-testid="text-welcome">
-                Welcome back, {(user as any)?.firstName || 'Citizen'}
-              </h1>
-              <p className="text-gray-600 mt-1">
-                Report and track civic issues in your community
-              </p>
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <div className="border-b border-border bg-gradient-to-r from-primary/5 via-transparent to-primary/5">
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl font-bold text-foreground mb-4" data-testid="text-welcome">
+              Welcome back, {(user as any)?.firstName || 'Citizen'}
+            </h1>
+            <p className="text-lg text-muted-foreground mb-8">
+              Help make your community better by reporting civic issues with AI-powered assistance
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="gap-2" data-testid="button-report-issue">
+                <Plus className="h-5 w-5" />
+                Report New Issue
+              </Button>
+              <Button variant="outline" size="lg" className="gap-2">
+                <TrendingUp className="h-5 w-5" />
+                View Analytics
+              </Button>
             </div>
-            <Button 
-              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-medium"
-              data-testid="button-report-issue"
-            >
-              <i className="fas fa-plus mr-2"></i>
-              Report Issue
-            </Button>
           </div>
         </div>
       </div>
 
       {/* Issue Upload Section */}
-      <section className="py-8 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-12 bg-muted/30">
+        <div className="container mx-auto px-4">
           <IssueUpload />
         </div>
       </section>
 
       {/* Dashboard Section */}
-      <section className="py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-900" data-testid="text-dashboard-title">Dashboard Overview</h2>
+      <section className="py-12">
+        <div className="container mx-auto px-4">
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-foreground" data-testid="text-dashboard-title">Dashboard Overview</h2>
+            <p className="text-muted-foreground mt-2">Track your reports and community activity</p>
           </div>
 
           {/* Stats Cards */}
@@ -119,7 +119,7 @@ export default function Home() {
                 ) : recentIssues?.length ? (
                   <div className="space-y-4">
                     {recentIssues.slice(0, 5).map((issue: any) => (
-                      <div key={issue.id} className="flex items-start justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors" data-testid={`report-${issue.id}`}>
+                      <div key={issue.id} className="flex items-start justify-between p-4 hover:bg-accent rounded-lg transition-colors" data-testid={`report-${issue.id}`}>
                         <div className="flex items-start space-x-3">
                           {issue.imageUrl && (
                             <img 
@@ -129,14 +129,14 @@ export default function Home() {
                             />
                           )}
                           <div>
-                            <p className="font-medium text-gray-900" data-testid={`report-title-${issue.id}`}>
+                            <p className="font-medium text-foreground" data-testid={`report-title-${issue.id}`}>
                               {issue.title}
                             </p>
-                            <p className="text-sm text-gray-500" data-testid={`report-description-${issue.id}`}>
+                            <p className="text-sm text-muted-foreground" data-testid={`report-description-${issue.id}`}>
                               {issue.description?.substring(0, 100)}...
                             </p>
-                            <p className="text-xs text-gray-400 mt-1">
-                              <i className="fas fa-map-marker-alt mr-1"></i>
+                            <p className="text-xs text-muted-foreground mt-1 flex items-center">
+                              <MapPin className="h-3 w-3 mr-1" />
                               {issue.address}
                             </p>
                           </div>
@@ -148,7 +148,8 @@ export default function Home() {
                           <Badge className={getPriorityColor(issue.priority)} data-testid={`report-priority-${issue.id}`}>
                             {issue.priority}
                           </Badge>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-muted-foreground flex items-center">
+                            <Clock className="h-3 w-3 mr-1" />
                             {formatDistanceToNow(new Date(issue.createdAt), { addSuffix: true })}
                           </span>
                         </div>
