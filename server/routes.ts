@@ -15,7 +15,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user?.claims?.sub;
+      const userId = (req.user as any)?.dbUser?.id;
       const email = req.user?.claims?.email;
       
       if (!userId && !email) {
@@ -80,7 +80,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Issue Management Routes
   app.post("/api/issues", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user?.claims?.sub;
+      const userId = (req.user as any)?.dbUser?.id;
       if (!userId) {
         return res.status(401).json({ error: "User not authenticated" });
       }
@@ -191,8 +191,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.patch("/api/issues/:id/status", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user?.claims?.sub;
-      const user = await storage.getUser(userId);
+      const userId = (req.user as any)?.dbUser?.id;
+      const user = (req.user as any)?.dbUser;
       
       if (!user || (user.role !== "official" && user.role !== "admin")) {
         return res.status(403).json({ error: "Unauthorized - officials only" });
@@ -236,8 +236,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Analytics Routes
   app.get("/api/analytics/stats", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user?.claims?.sub;
-      const user = await storage.getUser(userId);
+      const userId = (req.user as any)?.dbUser?.id;
+      const user = (req.user as any)?.dbUser;
       
       const stats = await storage.getDashboardStats(userId, user?.role);
       res.json(stats);
@@ -267,8 +267,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Community Routes
   app.post("/api/posts", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user?.claims?.sub;
-      const user = await storage.getUser(userId);
+      const userId = (req.user as any)?.dbUser?.id;
+      const user = (req.user as any)?.dbUser;
       
       if (!user) {
         return res.status(401).json({ error: "User not found" });
@@ -331,7 +331,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/comments", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user?.claims?.sub;
+      const userId = (req.user as any)?.dbUser?.id;
       
       // Moderate content
       const moderation = await aiService.moderateContent(req.body.content);
@@ -385,7 +385,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Engagement Routes
   app.post("/api/engagement/like", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user?.claims?.sub;
+      const userId = (req.user as any)?.dbUser?.id;
       const { postId, issueId } = req.body;
       
       await storage.toggleLike(userId, postId, issueId);
@@ -398,7 +398,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/engagement/like", isAuthenticated, async (req, res) => {
     try {
-      const userId = req.user?.claims?.sub;
+      const userId = (req.user as any)?.dbUser?.id;
       const { postId, issueId } = req.query;
       
       const isLiked = await storage.getUserEngagement(userId, postId as string, issueId as string);

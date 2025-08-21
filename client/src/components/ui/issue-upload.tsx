@@ -246,12 +246,23 @@ export default function IssueUpload() {
               onComplete={handleUploadComplete}
               buttonClassName="w-full"
             >
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-primary transition-colors">
-                <div className="space-y-4">
-                  <i className="fas fa-cloud-upload-alt text-6xl text-gray-400"></i>
-                  <div>
-                    <p className="text-xl font-medium text-gray-900">Drop your photo or video here</p>
-                    <p className="text-gray-500">or click to browse files</p>
+              <div className="relative group bg-gradient-to-br from-purple-50 to-blue-50 border-2 border-purple-200 rounded-xl p-12 hover:border-purple-400 hover:shadow-lg transition-all duration-300 cursor-pointer">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-100/50 to-blue-100/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative space-y-6 text-center">
+                  <div className="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <i className="fas fa-cloud-upload-alt text-3xl text-purple-600"></i>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-xl font-semibold text-gray-900 group-hover:text-purple-900 transition-colors">Drop your photo or video here</p>
+                    <p className="text-gray-600 group-hover:text-purple-700 transition-colors">or click to browse files • Max 10MB</p>
+                    <div className="flex items-center justify-center space-x-4 text-sm text-gray-500 mt-4">
+                      <span className="flex items-center">
+                        <i className="fas fa-image mr-1"></i> Images
+                      </span>
+                      <span className="flex items-center">
+                        <i className="fas fa-video mr-1"></i> Videos
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -37,7 +37,7 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+    <nav className="bg-white/80 backdrop-blur-lg shadow-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -70,9 +70,9 @@ export default function Navigation() {
             {/* Notifications */}
             <div className="relative">
               <Button variant="ghost" size="sm" className="p-2" data-testid="button-notifications">
-                <i className="fas fa-bell text-lg text-gray-400 hover:text-gray-500"></i>
+                <i className="fas fa-bell text-lg text-gray-600 hover:text-blue-600"></i>
               </Button>
-              <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full flex items-center justify-center text-xs text-white">
+              <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full flex items-center justify-center text-xs text-white font-bold">
                 3
               </span>
             </div>
@@ -117,17 +117,23 @@ export default function Navigation() {
                     <p className="text-xs text-gray-500">{user?.email}</p>
                   </div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem data-testid="menu-profile">
-                    <i className="fas fa-user mr-2"></i>
-                    Profile Settings
+                  <DropdownMenuItem asChild data-testid="menu-profile">
+                    <Link href="/profile" className="flex items-center w-full">
+                      <i className="fas fa-user mr-2"></i>
+                      Profile Settings
+                    </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem data-testid="menu-preferences">
-                    <i className="fas fa-cog mr-2"></i>
-                    Preferences
+                  <DropdownMenuItem asChild data-testid="menu-preferences">
+                    <Link href="/preferences" className="flex items-center w-full">
+                      <i className="fas fa-cog mr-2"></i>
+                      Preferences
+                    </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem data-testid="menu-help">
-                    <i className="fas fa-question-circle mr-2"></i>
-                    Help & Support
+                  <DropdownMenuItem asChild data-testid="menu-help">
+                    <Link href="/help" className="flex items-center w-full">
+                      <i className="fas fa-question-circle mr-2"></i>
+                      Help & Support
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 

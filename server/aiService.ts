@@ -45,7 +45,7 @@ ${location ? `Location context: ${location}` : ''}`;
 
       const imagePart = {
         inlineData: {
-          data: base64Image,
+          data: base64Image.replace(/^data:image\/[^;]+;base64,/, ''),
           mimeType: "image/jpeg",
         },
       };

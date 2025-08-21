@@ -11,6 +11,9 @@ import Reports from "@/pages/reports";
 import Community from "@/pages/community";
 import Analytics from "@/pages/analytics";
 import OfficialDashboard from "@/pages/official-dashboard";
+import Profile from "@/pages/profile";
+import Preferences from "@/pages/preferences";
+import Help from "@/pages/help";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -26,6 +29,9 @@ function Router() {
           <Route path="/community" component={Community} />
           <Route path="/analytics" component={Analytics} />
           <Route path="/official-dashboard" component={OfficialDashboard} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/preferences" component={Preferences} />
+          <Route path="/help" component={Help} />
         </>
       )}
       <Route component={NotFound} />
