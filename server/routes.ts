@@ -273,9 +273,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log("Post creation - userId from claims:", userId);
       
       let user = await storage.getUser(userId);
-      
-      // Use the database user ID instead of claims sub
-      const dbUserId = user?.id;
       console.log("Post creation - user from storage:", user);
       
       if (!user) {
@@ -292,6 +289,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         } else {
           return res.status(401).json({ error: "User not found and cannot create" });
         }
+      }
+      
+      // Use the database user ID
+      const dbUserId = user?.id;
+      console.log("Post creation - final dbUserId:", dbUserId);
+      
+      if (!dbUserId) {
+        return res.status(500).json({ error: "Failed to get user ID" });
       }
 
       // Moderate content

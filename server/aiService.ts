@@ -59,12 +59,25 @@ ${location ? `Location context: ${location}` : ''}`;
         }
       }
       
-      // Validate base64
-      if (!cleanBase64 || cleanBase64.length < 100) {
+      // Validate base64 - more lenient validation
+      if (!cleanBase64 || cleanBase64.length < 50) {
         throw new Error("Invalid or too small image data");
       }
       
+      // Remove any whitespace and validate base64 format
+      cleanBase64 = cleanBase64.replace(/\s/g, '');
+      
+      // Validate base64 format
+      if (!/^[A-Za-z0-9+/]*={0,2}$/.test(cleanBase64)) {
+        throw new Error("Invalid base64 format");
+      }
+      
       console.log("AI Analysis - Image size:", cleanBase64.length, "MIME type:", mimeType);
+      
+      // For Gemini, we need to ensure proper image format
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(mimeType)) {
+        mimeType = 'image/jpeg'; // Default to JPEG
+      }
       
       const imagePart = {
         inlineData: {
