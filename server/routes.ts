@@ -267,11 +267,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Community Routes
   app.post("/api/posts", isAuthenticated, async (req, res) => {
     try {
+      console.log("Post creation - Full user object:", JSON.stringify(req.user, null, 2));
+      
       const userId = req.user?.claims?.sub;
+      console.log("Post creation - userId from claims:", userId);
+      
       let user = await storage.getUser(userId);
+      console.log("Post creation - user from storage:", user);
       
       if (!user) {
-        return res.status(401).json({ error: "User not found" });
+        // Try to create user if doesn't exist
+        const claims = req.user?.claims;
+        if (claims?.email) {
+          user = await storage.upsertUser({
+            email: claims.email,
+            firstName: claims.first_name || claims.name?.split(' ')[0] || 'User',
+            lastName: claims.last_name || claims.name?.split(' ')[1] || '',
+            profileImageUrl: claims.profile_image_url || claims.picture,
+          });
+          console.log("Post creation - created new user:", user);
+        } else {
+          return res.status(401).json({ error: "User not found and cannot create" });
+        }
       }
 
       // Moderate content

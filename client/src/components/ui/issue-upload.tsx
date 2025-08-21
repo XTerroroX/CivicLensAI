@@ -232,10 +232,10 @@ export default function IssueUpload() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="text-center mb-6">
-        <h2 className="text-lg font-semibold text-gray-900" data-testid="text-upload-title">
+        <h2 className="text-lg font-semibold text-foreground" data-testid="text-upload-title">
           Report a Civic Issue
         </h2>
-        <p className="text-sm text-gray-600 mt-1">Upload a photo or video to get started</p>
+        <p className="text-sm text-muted-foreground mt-1">Upload a photo or video to get started</p>
       </div>
       
       {/* Upload Section */}
@@ -248,14 +248,14 @@ export default function IssueUpload() {
             onComplete={handleUploadComplete}
             buttonClassName="w-full block"
           >
-            <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-purple-400 hover:bg-purple-50/50 transition-all duration-200 cursor-pointer group">
+            <div className="bg-card border-2 border-dashed border-border rounded-lg p-8 hover:border-primary hover:bg-primary/5 transition-all duration-200 cursor-pointer group">
               <div className="text-center space-y-4">
-                <div className="w-12 h-12 mx-auto bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
-                  <i className="fas fa-cloud-upload-alt text-2xl text-purple-600"></i>
+                <div className="w-12 h-12 mx-auto bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <i className="fas fa-cloud-upload-alt text-2xl text-primary"></i>
                 </div>
                 <div>
-                  <p className="text-base font-medium text-gray-900">Drop your photo or video here</p>
-                  <p className="text-sm text-gray-500">or click to browse • Max 10MB • JPG, PNG, MP4</p>
+                  <p className="text-base font-medium text-foreground">Drop your photo or video here</p>
+                  <p className="text-sm text-muted-foreground">or click to browse • Max 10MB • JPG, PNG, MP4</p>
                 </div>
               </div>
             </div>

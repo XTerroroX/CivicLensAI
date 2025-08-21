@@ -32,8 +32,8 @@ export default function Analytics() {
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-gray-600">{title}</p>
-            <p className="text-3xl font-bold text-gray-900">{value}</p>
+            <p className="text-sm font-medium text-muted-foreground">{title}</p>
+            <p className="text-3xl font-bold text-foreground">{value}</p>
           </div>
           <div className={`${color} p-3 rounded-full`}>
             <i className={`${icon} text-xl`}></i>
@@ -50,16 +50,16 @@ export default function Analytics() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900" data-testid="text-analytics-title">
+            <h1 className="text-3xl font-bold text-foreground" data-testid="text-analytics-title">
               Analytics & Insights
             </h1>
-            <p className="text-gray-600 mt-2">
+            <p className="text-muted-foreground mt-2">
               Comprehensive data analysis of civic issues and community engagement
             </p>
           </div>
@@ -315,15 +315,18 @@ export default function Analytics() {
               <i className="fas fa-map mr-2 text-primary"></i>
               Geographic Distribution
             </CardTitle>
-            <p className="text-sm text-gray-600 mt-1">Heat map showing issue density across the city</p>
+            <p className="text-sm text-muted-foreground mt-1">Heat map showing issue density across the city (click to expand)</p>
           </CardHeader>
           <CardContent>
             <div 
-              className="h-96 bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex items-center justify-center relative overflow-hidden"
+              className="h-96 bg-gradient-to-br from-primary/40 to-primary/60 rounded-lg flex items-center justify-center relative overflow-hidden cursor-pointer hover:scale-[1.02] transition-transform duration-200"
               style={{
                 backgroundImage: "url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600')",
                 backgroundSize: "cover",
                 backgroundPosition: "center"
+              }}
+              onClick={() => {
+                window.open('https://www.google.com/maps', '_blank');
               }}
             >
               <div className="absolute inset-0 bg-blue-900 bg-opacity-40"></div>

@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(222, 84%, 4.9%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(222, 84%, 4.9%);
+  --background: hsl(209, 25%, 8%);
+  --foreground: hsl(200, 7%, 91%);
+  --card: hsl(228, 10%, 10%);
+  --card-foreground: hsl(0, 0%, 85%);
   --popover: hsl(0, 0%, 100%);
   --popover-foreground: hsl(222, 84%, 4.9%);
   --primary: hsl(262, 83%, 58%);

@@ -43,16 +43,33 @@ Please provide a detailed analysis in JSON format with the following structure:
 Consider safety impact, repair urgency, and potential for causing additional damage when determining priority.
 ${location ? `Location context: ${location}` : ''}`;
 
-      // Clean the base64 data
+      // Clean and validate the base64 data
       let cleanBase64 = base64Image;
+      let mimeType = "image/jpeg";
+      
       if (base64Image.includes(',')) {
-        cleanBase64 = base64Image.split(',')[1];
+        const parts = base64Image.split(',');
+        const header = parts[0];
+        cleanBase64 = parts[1];
+        
+        // Extract mime type from data URL
+        const mimeMatch = header.match(/data:([^;]+)/);
+        if (mimeMatch) {
+          mimeType = mimeMatch[1];
+        }
       }
+      
+      // Validate base64
+      if (!cleanBase64 || cleanBase64.length < 100) {
+        throw new Error("Invalid or too small image data");
+      }
+      
+      console.log("AI Analysis - Image size:", cleanBase64.length, "MIME type:", mimeType);
       
       const imagePart = {
         inlineData: {
           data: cleanBase64,
-          mimeType: "image/jpeg",
+          mimeType: mimeType,
         },
       };
 
