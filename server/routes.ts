@@ -49,7 +49,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Object Storage Routes
   app.get("/objects/:objectPath(*)", isAuthenticated, async (req, res) => {
-    const userId = req.user?.claims?.sub;
+    const userId = (req.user as any)?.claims?.sub;
     const objectStorageService = new ObjectStorageService();
     try {
       const objectFile = await objectStorageService.getObjectEntityFile(req.path);
@@ -99,12 +99,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const buffer = await response.arrayBuffer();
           const base64 = Buffer.from(buffer).toString('base64');
           
-          const analysis = await aiService.analyzeIssueImage(base64, validatedData.address);
+          const analysis = await aiService.analyzeIssueImage(base64, validatedData.address || undefined);
           aiAnalysis = analysis;
           
           // Generate title if not provided
           if (!title || title.trim() === '') {
-            title = await aiService.generateIssueTitle(analysis.issueType, analysis.description, validatedData.address);
+            title = await aiService.generateIssueTitle(analysis.issueType, analysis.description, validatedData.address || undefined);
           }
           
           // Determine department
@@ -127,7 +127,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         title,
         department,
         reporterId: userId,
-        aiAnalysis: aiAnalysis ? JSON.stringify(aiAnalysis) : null,
       });
 
       // If image was uploaded, set ACL policy
@@ -153,7 +152,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get all issues
   app.get("/api/issues", async (req, res) => {
+    try {
+      const issues = await storage.getAllIssues();
+      res.json(issues);
+    } catch (error) {
+      console.error("Error fetching issues:", error);
+      res.status(500).json({ error: "Failed to fetch issues" });
+    }
+  });
+
+  // Get recent issues
+  app.get("/api/issues/recent", async (req, res) => {
+    try {
+      const issues = await storage.getRecentIssues(5); // Get 5 most recent issues
+      res.json(issues);
+    } catch (error) {
+      console.error("Error fetching recent issues:", error);
+      res.status(500).json({ error: "Failed to fetch recent issues" });
+    }
+  });
+
+  // Get filtered issues (this was the original route)
+  app.get("/api/issues/filtered", async (req, res) => {
     try {
       const { status, issueType, department, page = "1", limit = "20" } = req.query;
       
@@ -269,7 +291,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       console.log("Post creation - Full user object:", JSON.stringify(req.user, null, 2));
       
-      const userId = req.user?.claims?.sub;
+      const userId = (req.user as any)?.claims?.sub;
       console.log("Post creation - userId from claims:", userId);
       
       let user = await storage.getUser(userId);
@@ -277,7 +299,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       if (!user) {
         // Try to create user if doesn't exist
-        const claims = req.user?.claims;
+        const claims = (req.user as any)?.claims;
         if (claims?.email) {
           user = await storage.upsertUser({
             email: claims.email,

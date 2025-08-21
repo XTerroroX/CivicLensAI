@@ -59,6 +59,20 @@ ${location ? `Location context: ${location}` : ''}`;
         }
       }
       
+      // Force proper image MIME type if detected incorrectly
+      if (!mimeType || !mimeType.startsWith('image/')) {
+        // Try to detect from base64 header
+        if (cleanBase64.startsWith('/9j/')) {
+          mimeType = 'image/jpeg';
+        } else if (cleanBase64.startsWith('iVBOR')) {
+          mimeType = 'image/png';
+        } else if (cleanBase64.startsWith('UklGR')) {
+          mimeType = 'image/webp';
+        } else {
+          mimeType = 'image/jpeg'; // Default fallback
+        }
+      }
+      
       // Validate base64 - more lenient validation
       if (!cleanBase64 || cleanBase64.length < 50) {
         throw new Error("Invalid or too small image data");
@@ -74,7 +88,7 @@ ${location ? `Location context: ${location}` : ''}`;
       
       console.log("AI Analysis - Image size:", cleanBase64.length, "MIME type:", mimeType);
       
-      // For Gemini, we need to ensure proper image format
+      // Ensure supported MIME type for Gemini
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(mimeType)) {
         mimeType = 'image/jpeg'; // Default to JPEG
       }

@@ -30,6 +30,8 @@ export interface IStorage {
   // Issue operations
   createIssue(issue: InsertIssue & { reporterId: string }): Promise<Issue>;
   getIssue(id: string): Promise<IssueWithDetails | undefined>;
+  getAllIssues(): Promise<IssueWithDetails[]>;
+  getRecentIssues(limit?: number): Promise<IssueWithDetails[]>;
   getIssues(filters?: {
     status?: string;
     issueType?: string;
@@ -169,6 +171,39 @@ export class DatabaseStorage implements IStorage {
     };
   }
 
+  async getAllIssues(): Promise<IssueWithDetails[]> {
+    const issuesData = await db
+      .select()
+      .from(issues)
+      .leftJoin(users, eq(issues.reporterId, users.id))
+      .orderBy(desc(issues.createdAt));
+
+    return issuesData.map(issue => ({
+      ...issue.issues,
+      reporter: issue.users || undefined,
+      assignedTo: undefined,
+      updates: [],
+      comments: [],
+    }));
+  }
+
+  async getRecentIssues(limit: number = 5): Promise<IssueWithDetails[]> {
+    const issuesData = await db
+      .select()
+      .from(issues)
+      .leftJoin(users, eq(issues.reporterId, users.id))
+      .orderBy(desc(issues.createdAt))
+      .limit(limit);
+
+    return issuesData.map(issue => ({
+      ...issue.issues,
+      reporter: issue.users || undefined,
+      assignedTo: undefined,
+      updates: [],
+      comments: [],
+    }));
+  }
+
   async getIssues(filters?: {
     status?: string;
     issueType?: string;
@@ -185,21 +220,21 @@ export class DatabaseStorage implements IStorage {
     if (filters?.reporterId) conditions.push(eq(issues.reporterId, filters.reporterId));
     if (filters?.assignedToId) conditions.push(eq(issues.assignedToId, filters.assignedToId));
 
-    let query = db
+    const baseQuery = db
       .select()
       .from(issues)
       .leftJoin(users, eq(issues.reporterId, users.id))
       .orderBy(desc(issues.createdAt));
 
-    if (conditions.length > 0) {
-      query = query.where(and(...conditions));
-    }
+    let query = conditions.length > 0 
+      ? baseQuery.where(and(...conditions))
+      : baseQuery;
 
-    if (filters?.limit) {
+    if (filters?.limit && filters?.offset) {
+      query = query.limit(filters.limit).offset(filters.offset);
+    } else if (filters?.limit) {
       query = query.limit(filters.limit);
-    }
-
-    if (filters?.offset) {
+    } else if (filters?.offset) {
       query = query.offset(filters.offset);
     }
 
@@ -389,21 +424,21 @@ export class DatabaseStorage implements IStorage {
     if (filters?.isOfficial !== undefined) conditions.push(eq(posts.isOfficial, filters.isOfficial));
     if (filters?.authorId) conditions.push(eq(posts.authorId, filters.authorId));
 
-    let query = db
+    const baseQuery = db
       .select()
       .from(posts)
       .leftJoin(users, eq(posts.authorId, users.id))
       .orderBy(desc(posts.isPinned), desc(posts.createdAt));
 
-    if (conditions.length > 0) {
-      query = query.where(and(...conditions));
-    }
+    let query = conditions.length > 0 
+      ? baseQuery.where(and(...conditions))
+      : baseQuery;
 
-    if (filters?.limit) {
+    if (filters?.limit && filters?.offset) {
+      query = query.limit(filters.limit).offset(filters.offset);
+    } else if (filters?.limit) {
       query = query.limit(filters.limit);
-    }
-
-    if (filters?.offset) {
+    } else if (filters?.offset) {
       query = query.offset(filters.offset);
     }
 
@@ -458,21 +493,21 @@ export class DatabaseStorage implements IStorage {
     if (filters.postId) conditions.push(eq(comments.postId, filters.postId));
     if (filters.issueId) conditions.push(eq(comments.issueId, filters.issueId));
 
-    let query = db
+    const baseQuery = db
       .select()
       .from(comments)
       .leftJoin(users, eq(comments.authorId, users.id))
       .orderBy(desc(comments.createdAt));
 
-    if (conditions.length > 0) {
-      query = query.where(and(...conditions));
-    }
+    let query = conditions.length > 0 
+      ? baseQuery.where(and(...conditions))
+      : baseQuery;
 
-    if (filters.limit) {
+    if (filters.limit && filters.offset) {
+      query = query.limit(filters.limit).offset(filters.offset);
+    } else if (filters.limit) {
       query = query.limit(filters.limit);
-    }
-
-    if (filters.offset) {
+    } else if (filters.offset) {
       query = query.offset(filters.offset);
     }
 
