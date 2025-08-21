@@ -1,0 +1,178 @@
+📄 Product Requirements Document (PRD)
+
+Project Name: CivicLens AI
+Version: v1.0
+Prepared by: [Your Name]
+Date: August 2025
+
+1. Overview
+
+CivicLens AI is a multimodal AI platform that empowers citizens to report civic infrastructure issues (potholes, graffiti, broken streetlights, trash overflow, unsafe sidewalks) with just a photo or video. It leverages computer vision to identify and classify issues, natural language generation to create structured reports, and integrates with Open311 APIs to route issues directly to the correct city departments.
+
+The system aims to reduce reporting latency, increase accuracy, and improve civic engagement while providing city governments with actionable, real-time data.
+
+2. Goals & Objectives
+
+Primary Goal: Automate civic issue detection and reporting.
+
+Objectives:
+
+Enable citizens to upload images/videos via web or mobile.
+
+Detect type of civic issue (pothole, graffiti, trash, light failure, etc.).
+
+Generate structured, professional issue reports automatically.
+
+Route reports to the correct city department using Open311 or city APIs.
+
+Provide real-time tracking of submitted issues.
+
+Support multilingual reporting (English, Spanish, etc.).
+
+3. Key Features
+3.1 Citizen-Facing
+
+Upload photo/video of civic issue.
+
+AI auto-detects issue type + severity.
+
+Generate structured issue report: description, severity, GPS location, timestamp.
+
+Multilingual support (via Hugging Face Translation models).
+
+Real-time report tracking (citizen can check status).
+
+3.2 City Department-Facing
+
+Dashboard with list of AI-detected issues.
+
+Reports routed by category (e.g., potholes → Public Works, graffiti → Sanitation).
+
+Severity scoring for prioritization.
+
+Integration with existing city systems via Open311 API.
+
+Notifications via Slack/MS Teams/Twilio for urgent issues.
+
+3.3 Admin Features
+
+Manage AI detection categories (add new issue types).
+
+Monitor performance metrics (e.g., detection accuracy, average response time).
+
+Export reports to CSV/PDF for analysis.
+
+4. Hugging Face Tasks Used
+
+Object Detection → Detect potholes, trash, graffiti, streetlights.
+
+Image Segmentation → Outline affected areas (size of pothole, graffiti area).
+
+Video Classification → Classify issues in short clips.
+
+Text Generation & Summarization → Generate structured reports from detections.
+
+Sentence Similarity / Text Classification → Match issues to city departments.
+
+Translation → Multilingual report support.
+
+5. User Stories
+
+As a citizen, I can upload a photo of a pothole so that the system automatically generates a report and sends it to Public Works.
+
+As a city worker, I receive categorized reports with severity scoring so I can prioritize urgent repairs.
+
+As an admin, I can add new issue categories (e.g., water leaks) without retraining models.
+
+As a citizen, I can view the status of my reported issue in real time.
+
+6. Technical Requirements
+6.1 Frontend
+
+Web: Next.js + Tailwind CSS
+
+Mobile (Phase 2): React Native
+
+6.2 Backend
+
+Framework: FastAPI (Python)
+
+Model Serving: Hugging Face Transformers, PyTorch
+
+Report Generation: Hugging Face Summarization + Translation APIs
+
+6.3 Database
+
+PostgreSQL + PostGIS (store geo-data)
+
+S3 bucket (media storage)
+
+6.4 Integrations
+
+Open311 API (report routing)
+
+Google Maps API (geo-tagging uploads)
+
+Twilio/Slack/MS Teams (real-time notifications)
+
+6.5 Infra
+
+Dockerized services
+
+Deployment: AWS/GCP (serverless for inference scaling)
+
+CI/CD: GitHub Actions
+
+7. Non-Functional Requirements
+
+Performance: Detect and generate reports within < 5 seconds per upload.
+
+Scalability: Handle 10,000+ reports/day.
+
+Security: Encrypted media storage, OAuth2 authentication.
+
+Reliability: 99.9% uptime SLA.
+
+Privacy: No storage of personally identifiable citizen data beyond opt-in contact info.
+
+8. Success Metrics
+
+Avg. time to report issue reduced by 70% compared to manual 311 calls.
+
+85% detection accuracy across issue categories.
+
+At least 3 city integrations in pilot phase.
+
+90%+ citizen satisfaction in surveys.
+
+9. Timeline (MVP – 3 months)
+
+Month 1:
+
+Setup infra (FastAPI, DB, file storage).
+
+Implement image upload + object detection.
+
+Month 2:
+
+Add video classification + report generation.
+
+Integrate Google Maps + Open311 API.
+
+Month 3:
+
+Build city dashboard + notifications.
+
+Add multilingual support.
+
+Pilot test with sample city dataset.
+
+10. Future Enhancements
+
+Drone-based automatic scanning of roads (integration with IoT).
+
+Predictive maintenance insights using Time Series Forecasting (road deterioration trends).
+
+Community voting/validation of AI reports.
+
+Gamification for citizens (badges for reporting).
