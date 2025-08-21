@@ -16,10 +16,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user?.claims?.sub;
-      if (!userId) {
-        return res.status(401).json({ message: "User ID not found" });
+      const email = req.user?.claims?.email;
+      
+      if (!userId && !email) {
+        return res.status(401).json({ message: "User ID or email not found" });
       }
-      const user = await storage.getUser(userId);
+      
+      // First try to get from session
+      if (req.user?.dbUser) {
+        return res.json(req.user.dbUser);
+      }
+      
+      // Try to get by user ID first, then fall back to email
+      let user;
+      if (userId) {
+        user = await storage.getUser(userId);
+      }
+      if (!user && email) {
+        user = await storage.getUserByEmail(email);
+      }
+      
+      if (!user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+      
       res.json(user);
     } catch (error) {
       console.error("Error fetching user:", error);
@@ -107,7 +127,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         title,
         department,
         reporterId: userId,
-        aiConfidence: aiAnalysis?.confidence,
         aiAnalysis: aiAnalysis ? JSON.stringify(aiAnalysis) : null,
       });
 

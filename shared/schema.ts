@@ -142,7 +142,7 @@ export const comments = pgTable("comments", {
   issueId: varchar("issue_id").references(() => issues.id, { onDelete: "cascade" }),
   
   // Reply threading
-  parentCommentId: varchar("parent_comment_id").references(() => comments.id),
+  parentCommentId: varchar("parent_comment_id"),
   
   // Moderation
   isModerated: boolean("is_moderated").default(false),
@@ -229,12 +229,6 @@ export const commentsRelations = relations(comments, ({ one, many }) => ({
     fields: [comments.issueId],
     references: [issues.id],
   }),
-  parentComment: one(comments, {
-    fields: [comments.parentCommentId],
-    references: [comments.id],
-    relationName: "parent",
-  }),
-  replies: many(comments, { relationName: "parent" }),
 }));
 
 // Zod schemas for validation

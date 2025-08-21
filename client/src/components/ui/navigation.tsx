@@ -21,7 +21,7 @@ export default function Navigation() {
     { href: "/analytics", label: "Analytics", icon: "fas fa-chart-line" },
   ];
 
-  if (user?.role === "official" || user?.role === "admin") {
+  if ((user as any)?.role === "official" || (user as any)?.role === "admin") {
     navItems.push({
       href: "/official-dashboard",
       label: "Official Dashboard",
@@ -81,18 +81,18 @@ export default function Navigation() {
             <div className="flex items-center space-x-3">
               <Badge 
                 className={`${
-                  user?.role === "official" || user?.role === "admin"
+                  (user as any)?.role === "official" || (user as any)?.role === "admin"
                     ? "bg-blue-100 text-blue-800"
                     : "bg-green-100 text-green-800"
                 }`}
                 data-testid="badge-user-role"
               >
                 <i className={`${
-                  user?.role === "official" || user?.role === "admin"
+                  (user as any)?.role === "official" || (user as any)?.role === "admin"
                     ? "fas fa-shield-alt"
                     : "fas fa-user"
                 } mr-1`}></i>
-                {user?.role === "official" ? "Official" : user?.role === "admin" ? "Admin" : "Citizen"}
+                {(user as any)?.role === "official" ? "Official" : (user as any)?.role === "admin" ? "Admin" : "Citizen"}
               </Badge>
               
               <DropdownMenu>

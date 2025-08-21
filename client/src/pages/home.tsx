@@ -56,7 +56,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6" data-testid="text-welcome">
-              Welcome back, {user?.firstName || 'Citizen'}!
+              Welcome back, {(user as any)?.firstName || 'Citizen'}!
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-blue-100">
               Report civic issues with AI-powered detection and tracking
