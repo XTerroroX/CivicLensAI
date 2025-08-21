@@ -230,44 +230,36 @@ export default function IssueUpload() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <h2 className="text-3xl font-bold text-center mb-8" data-testid="text-upload-title">
-        Report an Issue
-      </h2>
+    <div className="max-w-4xl mx-auto">
+      <div className="text-center mb-6">
+        <h2 className="text-lg font-semibold text-gray-900" data-testid="text-upload-title">
+          Report a Civic Issue
+        </h2>
+        <p className="text-sm text-gray-600 mt-1">Upload a photo or video to get started</p>
+      </div>
       
       {/* Upload Section */}
-      <Card className="mb-8" data-testid="card-file-upload">
-        <CardContent className="pt-6">
-          <div className="text-center">
-            <ObjectUploader
-              maxNumberOfFiles={1}
-              maxFileSize={10485760} // 10MB
-              onGetUploadParameters={getUploadParameters}
-              onComplete={handleUploadComplete}
-              buttonClassName="w-full"
-            >
-              <div className="relative group bg-gradient-to-br from-purple-50 to-blue-50 border-2 border-purple-200 rounded-xl p-12 hover:border-purple-400 hover:shadow-lg transition-all duration-300 cursor-pointer">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-100/50 to-blue-100/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative space-y-6 text-center">
-                  <div className="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <i className="fas fa-cloud-upload-alt text-3xl text-purple-600"></i>
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-xl font-semibold text-gray-900 group-hover:text-purple-900 transition-colors">Drop your photo or video here</p>
-                    <p className="text-gray-600 group-hover:text-purple-700 transition-colors">or click to browse files • Max 10MB</p>
-                    <div className="flex items-center justify-center space-x-4 text-sm text-gray-500 mt-4">
-                      <span className="flex items-center">
-                        <i className="fas fa-image mr-1"></i> Images
-                      </span>
-                      <span className="flex items-center">
-                        <i className="fas fa-video mr-1"></i> Videos
-                      </span>
-                    </div>
-                  </div>
+      <Card className="mb-6 shadow-sm border-gray-200" data-testid="card-file-upload">
+        <CardContent className="p-6">
+          <ObjectUploader
+            maxNumberOfFiles={1}
+            maxFileSize={10485760} // 10MB
+            onGetUploadParameters={getUploadParameters}
+            onComplete={handleUploadComplete}
+            buttonClassName="w-full block"
+          >
+            <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg p-8 hover:border-purple-400 hover:bg-purple-50/50 transition-all duration-200 cursor-pointer group">
+              <div className="text-center space-y-4">
+                <div className="w-12 h-12 mx-auto bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                  <i className="fas fa-cloud-upload-alt text-2xl text-purple-600"></i>
+                </div>
+                <div>
+                  <p className="text-base font-medium text-gray-900">Drop your photo or video here</p>
+                  <p className="text-sm text-gray-500">or click to browse • Max 10MB • JPG, PNG, MP4</p>
                 </div>
               </div>
-            </ObjectUploader>
-          </div>
+            </div>
+          </ObjectUploader>
         </CardContent>
       </Card>
 

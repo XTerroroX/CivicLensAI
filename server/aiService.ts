@@ -43,9 +43,15 @@ Please provide a detailed analysis in JSON format with the following structure:
 Consider safety impact, repair urgency, and potential for causing additional damage when determining priority.
 ${location ? `Location context: ${location}` : ''}`;
 
+      // Clean the base64 data
+      let cleanBase64 = base64Image;
+      if (base64Image.includes(',')) {
+        cleanBase64 = base64Image.split(',')[1];
+      }
+      
       const imagePart = {
         inlineData: {
-          data: base64Image.replace(/^data:image\/[^;]+;base64,/, ''),
+          data: cleanBase64,
           mimeType: "image/jpeg",
         },
       };

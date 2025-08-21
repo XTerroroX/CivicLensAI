@@ -51,64 +51,48 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50/30 to-blue-50">
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-blue-600 text-white py-16">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-100 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6" data-testid="text-welcome">
-              Welcome back, {(user as any)?.firstName || 'Citizen'}!
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Report civic issues with AI-powered detection and tracking
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-              <Button 
-                className="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-200"
-                data-testid="button-report-issue"
-              >
-                <i className="fas fa-camera mr-2"></i>
-                Report New Issue
-              </Button>
-              <Button 
-                variant="outline"
-                className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors duration-200"
-                data-testid="button-view-analytics"
-              >
-                <i className="fas fa-chart-line mr-2"></i>
-                View Analytics
-              </Button>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900" data-testid="text-welcome">
+                Welcome back, {(user as any)?.firstName || 'Citizen'}
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Report and track civic issues in your community
+              </p>
             </div>
+            <Button 
+              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-medium"
+              data-testid="button-report-issue"
+            >
+              <i className="fas fa-plus mr-2"></i>
+              Report Issue
+            </Button>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Issue Upload Section */}
-      <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-8 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <IssueUpload />
         </div>
       </section>
 
       {/* Dashboard Section */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-3xl font-bold" data-testid="text-dashboard-title">Your Dashboard</h2>
-            <div className="flex space-x-2">
-              <Button variant="outline" size="sm" data-testid="button-filter">
-                <i className="fas fa-filter mr-2"></i>Filter
-              </Button>
-              <Button variant="outline" size="sm" data-testid="button-export">
-                <i className="fas fa-download mr-2"></i>Export
-              </Button>
-            </div>
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold text-gray-900" data-testid="text-dashboard-title">Dashboard Overview</h2>
           </div>
 
           {/* Stats Cards */}
           <DashboardStats stats={dashboardStats} isLoading={statsLoading} />
 
           {/* Recent Reports and Community Activity */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
             {/* Recent Reports */}
             <Card data-testid="card-recent-reports">
               <CardHeader>

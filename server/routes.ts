@@ -267,8 +267,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Community Routes
   app.post("/api/posts", isAuthenticated, async (req, res) => {
     try {
-      const userId = (req.user as any)?.dbUser?.id;
-      const user = (req.user as any)?.dbUser;
+      const userId = req.user?.claims?.sub;
+      let user = await storage.getUser(userId);
       
       if (!user) {
         return res.status(401).json({ error: "User not found" });
