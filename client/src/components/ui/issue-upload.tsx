@@ -237,16 +237,17 @@ export default function IssueUpload() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ObjectUploader
-            maxNumberOfFiles={1}
-            maxFileSize={10485760} // 10MB
-            onGetUploadParameters={getUploadParameters}
-            onComplete={handleUploadComplete}
-            buttonClassName="w-full"
-          >
-            <div className="border-2 border-dashed border-border rounded-lg p-12 text-center hover:border-primary hover:bg-primary/5 transition-all duration-200 cursor-pointer group">
+          <div className="relative">
+            <ObjectUploader
+              maxNumberOfFiles={1}
+              maxFileSize={10485760} // 10MB
+              onGetUploadParameters={getUploadParameters}
+              onComplete={handleUploadComplete}
+              buttonClassName="absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer"
+            />
+            <div className="border-2 border-dashed border-border rounded-lg p-12 text-center hover:border-primary hover:bg-primary/5 transition-all duration-200 pointer-events-none">
               <div className="space-y-4">
-                <div className="w-16 h-16 mx-auto bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <div className="w-16 h-16 mx-auto bg-primary/10 rounded-xl flex items-center justify-center">
                   <Upload className="h-8 w-8 text-primary" />
                 </div>
                 <div>
@@ -257,7 +258,7 @@ export default function IssueUpload() {
                 </div>
               </div>
             </div>
-          </ObjectUploader>
+          </div>
         </CardContent>
       </Card>
 
